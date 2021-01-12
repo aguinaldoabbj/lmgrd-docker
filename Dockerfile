@@ -5,9 +5,12 @@ FROM ubuntu
 #url of latest Linux 64-bit Matlab License Manager. Go to https://www.mathworks.com/support/install/license_manager_files.html
 ARG LRGRD_URL=https://ssd.mathworks.com/supportfiles/downloads/R2020b/license_manager/R2020b/daemons/glnxa64/mathworks_network_license_manager_glnxa64.zip
 
+ENV LICENSE_DIR=/etc/lmgrd/licenses
 
-RUN apt update && apt install wget unzip patchelf -y && mkdir /lmgrd && mkdir -p /etc/lmgrd/licenses \
-	&& cd /lmgrd && wget $LRGRD_URL -O  manager.zip \
+RUN apt update && apt install file wget unzip patchelf -y && mkdir /lmgrd && mkdir -p $LICENSE_DIR \
+    && chmod -R 777 /lmgrd \
+    && chmod -R 777 $LICENSE_DIR \
+	&& cd /lmgrd && wget $LRGRD_URL -O manager.zip \
 	&& unzip manager.zip \
     && rm -vf manager.zip \
 	&& for file in $(ls etc/glnxa64); do patchelf --set-interpreter /lib64/ld-linux-x86-64.so.2 etc/glnxa64/${file}; done 
@@ -16,7 +19,7 @@ RUN apt update && apt install wget unzip patchelf -y && mkdir /lmgrd && mkdir -p
 #FROM ubuntu
 #COPY --from=builder /lmgrd /lmgrd
 
-ENV LICENSES_URL=http://url-to-your-license-file
+ENV LICENSE_URL=https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-zip-file.zip
 
 #VOLUME /etc/lmgrd/licenses
 #VOLUME /usr/tmp
@@ -34,6 +37,5 @@ ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["npm", "start"]
 CMD ["/lmgrd/etc/glnxa64/lmgrd", "-z", "-c", "/etc/lmgrd/licenses"]
 
-
 #ENTRYPOINT ["/lmgrd/etc/glnxa64/lmgrd", "-z", "-c", "/etc/lmgrd/licenses"]
-# 
+#
