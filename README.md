@@ -3,7 +3,7 @@
 This repo hosts the Dockerfile for running lmgrd. To run a container:
 
 ```shell
-docker run -itd --user nobody --hostname HOSTNAME --env LMGRD_PORT=27000 --env MLM_PORT=27001 -p 27000:27000 -p 27001:27001 -v LICENSEDIR:/etc/lmgrd/licenses --mac-address MAC butui/lmgrd
+docker run -itd --user nobody --hostname HOSTNAME --env LMGRD_PORT=27000 --env MLM_PORT=27001 -p 27000:27000 -p 27001:27001 --mac-address MAC lmgrd-docker
 ```
 
 where `HOSTNAME` is the hostname of the container, MAC is the MAC address of the container. And this Docker image use `27000` and `27001` port for `lmgrd` and `MLM` by default. You could modify these ports by setting the environment variable `LMGRD_PORT` and `MLM_PORT` without manual modify the `Dockerfile` or the license file. These values should meet the value in your license file. Your license file should contain two lines like this:
