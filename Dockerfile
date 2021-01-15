@@ -15,7 +15,7 @@ RUN apt update && apt install -y \
     	&& chmod -R 777 $LICENSE_DIR \
 	&& cd /lmgrd && wget $LMGRD_URL -O manager.zip \
 	&& unzip manager.zip \
-    && rm -vf manager.zip \
+    	&& rm -vf manager.zip \
 	&& for file in $(ls etc/glnxa64); do patchelf --set-interpreter /lib64/ld-linux-x86-64.so.2 etc/glnxa64/${file}; done \
 	&& apt purge patchelf -y \
 	# lmgrd bin files download from MATLAB website comes with wrong interpreter. we do manual patch with patchelf
