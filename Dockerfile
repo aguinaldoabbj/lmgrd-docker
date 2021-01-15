@@ -11,8 +11,8 @@ RUN apt update && apt install -y \
 	unzip \
 	patchelf \
 	&& mkdir /lmgrd && mkdir -p $LICENSE_DIR \
-    && chmod -R 777 /lmgrd \
-    && chmod -R 777 $LICENSE_DIR \
+    	&& chmod -R 777 /lmgrd \
+    	&& chmod -R 777 $LICENSE_DIR \
 	&& cd /lmgrd && wget $LMGRD_URL -O manager.zip \
 	&& unzip manager.zip \
     && rm -vf manager.zip \
@@ -20,6 +20,8 @@ RUN apt update && apt install -y \
 	&& apt purge patchelf -y \
 	# lmgrd bin files download from MATLAB website comes with wrong interpreter. we do manual patch with patchelf
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /usr/tmp/ # For (MLM) Can't make directory /usr/tmp/.flexlm, errno: 2(No such file or directory) error
 
 ENV LICENSE_URL=http://example.com/license.lic
 
