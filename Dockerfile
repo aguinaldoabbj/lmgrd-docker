@@ -21,7 +21,8 @@ RUN apt update && apt install -y \
 	# lmgrd bin files download from MATLAB website comes with wrong interpreter. we do manual patch with patchelf
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /usr/tmp/ # For (MLM) Can't make directory /usr/tmp/.flexlm, errno: 2(No such file or directory) error
+#This directory is used to write some temporary data
+RUN mkdir -p /usr/tmp/ && chmod -R 777 /usr/tmp/
 
 ENV LICENSE_URL=http://example.com/license.lic
 
